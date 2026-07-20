@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.JPSecureLock" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#EAB308</item>
+        <item name="colorPrimaryVariant">#A16207</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorSecondary">#FFFFFF</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowBackground">#050505</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+    </style>
+</resources>

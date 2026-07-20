@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JP Secure Lock</string>
+    <string name="headline">Bloqueador anti-roubo E2E</string>
+    <string name="creator_line">Criado por %1$s</string>
+
+    <string name="state_inactive">Estado: INATIVO — configure o PIN e ative o bloqueador.</string>
+    <string name="state_active">Estado: ATIVO — proteção criptográfica ligada.</string>
+    <string name="state_active_blocker">Estado: BLOQUEADOR ATIVO — 3 erros = resposta anti-roubo.</string>
+    <string name="state_session">Estado: SESSÃO LIBERADA — você pode desativar a proteção.</string>
+    <string name="state_wiped">Estado: WIPE — cofre destruído (recovery se factory reset não rodou).</string>
+    <string name="state_released">Estado: LIBERADO E DESATIVADO — proteção encerrada.</string>
+    <string name="state_wiping">Estado: PROTOCOLO ANTI-ROUBO EM EXECUÇÃO…</string>
+
+    <string name="setup_help">1) Ative o Administrador do dispositivo. 2) Defina o PIN. 3) Guarde o recovery. Com modo anti-roubo, 3 PIN errados apagam TODOS os dados do aparelho (factory reset oficial Android).</string>
+    <string name="btn_enable_admin">Ativar Administrador (obrigatório p/ anti-roubo máximo)</string>
+    <string name="cb_antitheft">Modo anti-roubo máximo: 3 erros → factory reset (apaga o aparelho)</string>
+    <string name="admin_status_on">Device Admin: ATIVO ✓ (bloqueio + wipe disponíveis)</string>
+    <string name="admin_status_off">Device Admin: INATIVO — só wipe do app (sem factory reset)</string>
+    <string name="admin_title">Permissão de administrador</string>
+    <string name="admin_activate_confirm">Para o bloqueador anti-roubo máximo, o Android exige que você autorize o JP Secure Lock como administrador do dispositivo. Na próxima tela, toque em Ativar.</string>
+    <string name="admin_grant">Autorizar agora</string>
+    <string name="admin_required_for_max">Admin não concedido. Ative o administrador ou desmarque o modo máximo.</string>
+    <string name="admin_enabled">Administrador JP Secure Lock ativado.</string>
+    <string name="admin_disabled">Administrador desativado.</string>
+    <string name="admin_disable_warning">Desativar o admin remove a proteção anti-roubo de factory reset.</string>
+    <string name="admin_description">Permite bloquear a tela e apagar dados do aparelho se o PIN do JP Secure Lock falhar 3 vezes (anti-roubo).</string>
+    <string name="admin_explain">JP Secure Lock precisa desta permissão para trancar o aparelho e, se o PIN errar 3 vezes, executar factory reset (apagar todos os dados). Criado por Joaquim Pedro de Morais Filho.</string>
+    <string name="danger_title">⚠ AVISO CRÍTICO</string>
+    <string name="danger_confirm">Com o modo anti-roubo máximo, 3 tentativas de PIN erradas apagam TODOS os dados do celular (fotos, apps, contas) via factory reset do Android.\n\nIsso é eficaz contra roubo de DADOS, mas se você esquecer o PIN e não tiver recovery + backup, perde tudo.\n\nNão danifica o hardware — o aparelho vira como novo.\n\nDeseja continuar?</string>
+    <string name="danger_accept">Entendi, ativar bloqueador</string>
+    <string name="recovery_antitheft_extra">ANTI-ROUBO MÁXIMO LIGADO: 3 erros = factory reset. Recovery só ajuda se o reset ainda não tiver sido concluído.</string>
+    <string name="wipe_partial">Wipe do cofre + lock. Factory reset bloqueado pelo sistema.</string>
+    <string name="wipe_app_only">(sem factory reset — ative Device Admin para modo máximo)</string>
+    <string name="hint_pin">PIN (mín. 4 dígitos)</string>
+    <string name="hint_pin2">Confirmar PIN</string>
+    <string name="hint_secret">Nota secreta / identificador do aparelho (cifrado)</string>
+    <string name="btn_activate">Ativar bloqueador de segurança</string>
+
+    <string name="attempts_left">Tentativas restantes: %1$d / 3</string>
+    <string name="btn_unlock">Desbloquear</string>
+    <string name="btn_force_fail">Simular erro de senha</string>
+
+    <string name="unlocked_help">Cofre aberto. Após a liberação física do aparelho, desative a proteção.</string>
+    <string name="empty_vault">(cofre vazio)</string>
+    <string name="btn_release">Liberar aparelho e desativar</string>
+    <string name="release_title">Desativar proteção?</string>
+    <string name="release_msg">Isso apaga chaves e desliga o JP Secure Lock neste aparelho. Use só após a liberação legítima.</string>
+    <string name="release_confirm">Desativar</string>
+    <string name="release_ok">Proteção desativada. Aparelho liberado.</string>
+
+    <string name="wiped_help">3 PIN errados destruíram a chave de dados. O Android continua normal. Recupere com o código offline.</string>
+    <string name="hint_recovery">Código de recuperação (XXXX-XXXX-XXXX)</string>
+    <string name="hint_new_pin">Novo PIN</string>
+    <string name="btn_recover">Recuperar e reativar</string>
+
+    <string name="released_help">Proteção desligada. Para testar de novo, reinicie o demo.</string>
+    <string name="btn_reset_demo">Reiniciar demo</string>
+    <string name="reset_ok">Demo reiniciado.</string>
+
+    <string name="wipe_anim_title">⚠ PROTOCOLO JP SECURE · WIPE</string>
+    <string name="recovery_title">Guarde o recovery code</string>
+    <string name="recovery_msg">Código de recuperação (único por ativação):\n\n%1$s\n\nSem ele, após 3 erros o cofre não volta. Não tire print em nuvem pública.</string>
+    <string name="recovery_saved_hint">Proteção ativa. Recovery exibido apenas na ativação.</string>
+
+    <string name="err_pin_short">PIN deve ter pelo menos 4 dígitos.</string>
+    <string name="err_pin_mismatch">PINs não coincidem.</string>
+
+    <string name="legal_note">AVISO LEGAL: Este app NÃO danifica hardware/RAM. O modo anti-roubo máximo usa Device Admin oficial do Android: lockNow + wipeData (factory reset) após 3 PIN errados — apaga DADOS, eficaz contra roubo de informações. Use só no SEU aparelho, com backup e recovery code. Uso malicioso (instalar em aparelho de terceiros sem consentimento) é crime. Criado por Joaquim Pedro de Morais Filho.</string>
+</resources>

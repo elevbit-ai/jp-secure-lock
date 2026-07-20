@@ -1,0 +1,15 @@
+/.gradle/
+/build/
+/app/build/
+/.build/
+/local.properties
+/keystore.properties
+/signing/
+*.jks
+*.keystore
+*.ap_
+.idea/
+*.iml
+# block random apks but allow site downloads
+*.apk
+!docs/downloads/*.apk
