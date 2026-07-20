@@ -1,57 +1,34 @@
 # JP Secure Lock
 
-**Bloqueador anti-roubo Android com criptografia E2E**  
+**Bloqueador anti-roubo Android** · v1.4.0  
 Criado por **Joaquim Pedro de Morais Filho**
 
-## Website publicado (online agora)
+## Website
 
-| Página | Link |
-|--------|------|
-| **Site PT/EN (live)** | https://cdn.jsdelivr.net/gh/elevbit-ai/jp-secure-lock@gh-pages/index.html |
-| **English** | https://cdn.jsdelivr.net/gh/elevbit-ai/jp-secure-lock@gh-pages/en/index.html |
-| **GitHub Pages** (pode demorar / instável na API) | https://elevbit-ai.github.io/jp-secure-lock/ |
-| **Repositório** | https://github.com/elevbit-ai/jp-secure-lock |
-| **Release** | https://github.com/elevbit-ai/jp-secure-lock/releases/tag/v1.1.0 |
+- https://cdn.jsdelivr.net/gh/elevbit-ai/jp-secure-lock@gh-pages/index.html
+- https://github.com/elevbit-ai/jp-secure-lock
 
-## Download direto do APK
+## Download APK v1.4.0
 
-**Nome explicativo:**
+- [JP-Secure-Lock-AntiTheft-v1.4.0.apk](docs/downloads/JP-Secure-Lock-AntiTheft-v1.4.0.apk)
+- Raw: https://github.com/elevbit-ai/jp-secure-lock/raw/main/docs/downloads/JP-Secure-Lock-AntiTheft-v1.4.0.apk
 
-- https://github.com/elevbit-ai/jp-secure-lock/raw/main/docs/downloads/JP-Secure-Lock-AntiTheft-v1.1.0.apk
-- https://github.com/elevbit-ai/jp-secure-lock/raw/main/docs/downloads/JP-Secure-Lock-assinado.apk
+`adb install -r JP-Secure-Lock-AntiTheft-v1.4.0.apk`
 
-```bash
-adb install -r JP-Secure-Lock-AntiTheft-v1.1.0.apk
-```
+## v1.4.0 — digitação estável + bloqueio no boot
 
-| Campo | Valor |
-|-------|--------|
-| App | JP Secure Lock |
-| Package | `br.com.joaquimpedro.jpsecure` |
-| Version | 1.1.0 |
-| Signature | APK Signature Scheme v2 |
-| Author | Joaquim Pedro de Morais Filho |
+- PIN digitável sem travar teclado (watchdog suave)
+- Overlay não recria a janela em loop
+- Ligar/desligar o aparelho mantém o bloqueio (BOOT + SCREEN_ON)
+- Overlay + HOME + Device Admin + watchdog
 
-## O que faz
+## Setup inviolável
 
-1. Ativa **bloqueador** com PIN  
-2. Cifra cofre (**AES-256-GCM** + **PBKDF2**)  
-3. Com **Device Admin**: 3 PIN errados → wipe + factory reset  
-4. Após desbloqueio → **liberar e desativar**
+1. Exibir sobre outros apps  
+2. Administrador do dispositivo  
+3. App como HOME  
+4. Ativar PIN  
 
-## Avisos
+Device Owner (máximo): ver DEVICE_OWNER.md
 
-- Use só no **seu** aparelho, com backup  
-- Modo máximo apaga tudo em 3 erros  
-- Não danifica hardware/RAM  
-
-## Build
-
-```powershell
-.\sign_and_build.ps1
-```
-
-## Autor
-
-**Joaquim Pedro de Morais Filho** — JP Secure Lock  
-© 2026 · MIT
+© Joaquim Pedro de Morais Filho · MIT

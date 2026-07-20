@@ -1,5 +1,6 @@
 package br.com.joaquimpedro.jpsecure;
 
+import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,16 +9,10 @@ import android.os.Build;
 import android.util.Log;
 
 /**
- * Bloqueador anti-roubo via APIs oficiais do Android.
- *
- * Nível alto de impacto (com Device Admin ativo):
- *  1) limpeza segura de chaves na memória do app
- *  2) wipe criptográfico do cofre
- *  3) lockNow() — trava a tela do sistema
- *  4) wipeData() — factory reset (apaga TODOS os dados do aparelho)
- *
- * Não danifica hardware/RAM fisicamente. O "destrutivo" é perda de DADOS
- * (padrão de anti-roubo empresarial / Find My Device).
+ * Camada inviolável de bloqueio (APIs oficiais Android):
+ * - Device Admin: lockNow / wipeData
+ * - Device Owner: Lock Task (kiosk), status bar, keyguard
+ * - App: overlay + launcher HOME + watchdog
  *
  * Criado por Joaquim Pedro de Morais Filho
  */
@@ -43,6 +38,10 @@ public final class AntiTheftController {
         return dpm != null && dpm.isAdminActive(admin);
     }
 
+    public boolean isDeviceOwner() {
+        return dpm != null && dpm.isDeviceOwnerApp(app.getPackageName());
+    }
+
     public Intent createEnableAdminIntent() {
         Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, admin);
@@ -61,50 +60,120 @@ public final class AntiTheftController {
     }
 
     /**
-     * Resposta anti-roubo de alto impacto após 3 PIN errados.
-     * @return true se factory reset foi solicitado com sucesso
+     * Ativa modo kiosk / lock task (máximo controle se Device Owner).
      */
-    public boolean executeHighImpactResponse(SecureVault vault) {
-        // 1) wipe criptográfico local + limpeza de buffers do processo
-        vault.triggerCryptographicWipe();
-        CryptoEngine.memorySurgeWipe(new byte[64], new byte[128], new byte[256]);
+    public void enableKioskAndLockTask(Activity activity) {
+        try {
+            if (isDeviceOwner()) {
+                String pkg = app.getPackageName();
+                dpm.setLockTaskPackages(admin, new String[]{pkg});
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    try {
+                        dpm.setStatusBarDisabled(admin, true);
+                    } catch (Exception e) {
+                        Log.w(TAG, "setStatusBarDisabled", e);
+                    }
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    try {
+                        dpm.setKeyguardDisabled(admin, true);
+                    } catch (Exception e) {
+                        Log.w(TAG, "setKeyguardDisabled", e);
+                    }
+                }
+            }
+            if (activity != null) {
+                try {
+                    activity.startLockTask();
+                } catch (Exception e) {
+                    Log.w(TAG, "startLockTask (pode precisar Device Owner ou pin)", e);
+                }
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "enableKioskAndLockTask", e);
+        }
+    }
 
+    public void stopKioskMode(Activity activity) {
+        try {
+            if (activity != null) {
+                try {
+                    activity.stopLockTask();
+                } catch (Exception ignored) {
+                }
+            }
+            if (isDeviceOwner()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    try {
+                        dpm.setStatusBarDisabled(admin, false);
+                    } catch (Exception ignored) {
+                    }
+                    try {
+                        dpm.setKeyguardDisabled(admin, false);
+                    } catch (Exception ignored) {
+                    }
+                }
+                try {
+                    dpm.setLockTaskPackages(admin, new String[0]);
+                } catch (Exception ignored) {
+                }
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "stopKioskMode", e);
+        }
+    }
+
+    public boolean executeHighImpactResponse(SecureVault vault) {
+        if (vault.getState() != SecureVault.State.WIPED) {
+            vault.triggerCryptographicWipe();
+        }
+        CryptoEngine.memorySurgeWipe(new byte[64], new byte[128], new byte[256]);
+        lockScreen();
+        return executeFactoryResetOnly();
+    }
+
+    public boolean executeFactoryResetOnly() {
         if (!isAdminActive()) {
-            Log.w(TAG, "Device Admin inativo — apenas wipe do cofre do app");
+            Log.w(TAG, "Device Admin inativo — sem factory reset");
             return false;
         }
-
-        // 2) trava imediata
         try {
-            dpm.lockNow();
-        } catch (Exception e) {
-            Log.w(TAG, "lockNow", e);
-        }
-
-        // 3) factory reset (destrutivo para DADOS, oficial Android)
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                // API 34+: wipe com flags padrão
-                dpm.wipeData(0);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                dpm.wipeData(0);
-            } else {
-                dpm.wipeData(0);
-            }
+            lockScreen();
+            dpm.wipeData(0);
             return true;
         } catch (SecurityException e) {
             Log.e(TAG, "wipeData não permitido", e);
             return false;
+        } catch (Exception e) {
+            Log.e(TAG, "wipeData erro", e);
+            return false;
         }
     }
 
-    /** Remove Device Admin ao liberar/desativar proteção. */
     public void removeAdminIfPossible() {
         if (!isAdminActive()) return;
         try {
+            if (isDeviceOwner()) {
+                // Device Owner não remove por removeActiveAdmin — precisa clear-device-owner
+                Log.w(TAG, "Device Owner: remova via adb shell dpm remove-active-admin ...");
+                return;
+            }
             dpm.removeActiveAdmin(admin);
         } catch (Exception e) {
             Log.w(TAG, "removeActiveAdmin", e);
         }
+    }
+
+    public String getLockStrengthLabel(Context ctx) {
+        if (isDeviceOwner()) {
+            return ctx.getString(R.string.lock_level_owner);
+        }
+        if (isAdminActive() && LockOverlayService.hasOverlayPermission(ctx)) {
+            return ctx.getString(R.string.lock_level_strong);
+        }
+        if (isAdminActive() || LockOverlayService.hasOverlayPermission(ctx)) {
+            return ctx.getString(R.string.lock_level_medium);
+        }
+        return ctx.getString(R.string.lock_level_basic);
     }
 }

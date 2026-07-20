@@ -95,7 +95,7 @@ if ($LASTEXITCODE -ne 0) { throw "Build release falhou" }
 $apk = Join-Path $ProjectRoot "app\build\outputs\apk\release\app-release.apk"
 $outDir = Join-Path $env:USERPROFILE "Downloads\JP_Secure_Lock"
 if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Force -Path $outDir | Out-Null }
-$dest = Join-Path $outDir "JP_Secure_Lock_1.1_signed.apk"
+$dest = Join-Path $outDir "JP-Secure-Lock-AntiTheft-v1.4.0.apk"
 
 if (-not (Test-Path $apk)) { throw "APK release nao encontrado: $apk" }
 Copy-Item $apk $dest -Force

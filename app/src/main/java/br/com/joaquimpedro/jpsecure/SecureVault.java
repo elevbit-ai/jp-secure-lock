@@ -6,11 +6,9 @@ import android.content.SharedPreferences;
 import java.security.GeneralSecurityException;
 
 /**
- * Cofre local com estados:
- * INACTIVE → ACTIVE → UNLOCKED_SESSION → WIPED (recuperável) → RELEASED
- *
- * Após 3 PIN errados: destruição criptográfica do vault (dados irrecuperáveis sem recovery).
- * Aparelho permanece utilizável; apenas o cofre do app é afetado.
+ * Cofre e estados do bloqueador de produção.
+ * INACTIVE → ACTIVE (PIN) → sessão desbloqueada em memória → RELEASED
+ * 3 erros → WIPED (recovery) ou factory reset se Device Admin.
  *
  * Criado por Joaquim Pedro de Morais Filho
  */
@@ -19,13 +17,13 @@ public class SecureVault {
     public static final int MAX_ATTEMPTS = 3;
 
     public enum State {
-        INACTIVE,   // proteção desligada / nunca configurada
-        ACTIVE,     // trancado, precisa PIN
-        WIPED,      // 3 erros — precisa recovery
-        RELEASED    // liberado e desativado pelo titular
+        INACTIVE,
+        ACTIVE,
+        WIPED,
+        RELEASED
     }
 
-    private static final String PREFS = "jp_secure_vault_v1";
+    private static final String PREFS = "jp_secure_vault_v2";
     private static final String K_STATE = "state";
     private static final String K_SALT = "dek_salt";
     private static final String K_IV = "dek_iv";
@@ -50,7 +48,6 @@ public class SecureVault {
         }
     }
 
-    /** Anti-roubo total: 3 erros → factory reset (se Device Admin ativo). */
     public boolean isAntiTheftWipeEnabled() {
         return prefs.getBoolean(K_ANTITHEFT, true);
     }
@@ -65,6 +62,17 @@ public class SecureVault {
 
     public void setBlockerActive(boolean active) {
         prefs.edit().putBoolean(K_BLOCKER, active).apply();
+    }
+
+    /** Precisa da tela de PIN e não pode sair. */
+    public boolean requiresPinScreen() {
+        State s = getState();
+        return (s == State.ACTIVE && prefs.getBoolean(K_BLOCKER, false))
+                || s == State.WIPED;
+    }
+
+    public boolean isFullyLocked() {
+        return getState() == State.ACTIVE && prefs.getBoolean(K_BLOCKER, false);
     }
 
     public State getState() {
@@ -84,17 +92,10 @@ public class SecureVault {
         return Math.max(0, MAX_ATTEMPTS - getFails());
     }
 
-    public String getOwnerNote() {
-        return prefs.getString(K_OWNER, "");
-    }
-
     public String getCreator() {
         return prefs.getString(K_CREATED, "Joaquim Pedro de Morais Filho");
     }
 
-    /**
-     * Ativa proteção: PIN + gera recovery code (retornado UMA vez).
-     */
     public String activate(String pin, String secretNote) throws GeneralSecurityException {
         if (pin == null || pin.length() < 4) {
             throw new IllegalArgumentException("PIN mínimo: 4 dígitos");
@@ -102,9 +103,7 @@ public class SecureVault {
         CryptoEngine.WrappedKey wrapped = CryptoEngine.wrapNewDek(pin);
         byte[] dek = CryptoEngine.unwrapDek(pin, wrapped);
         try {
-            String vaultCt = CryptoEngine.encryptUtf8(dek,
-                    secretNote == null ? "" : secretNote);
-
+            String vaultCt = CryptoEngine.encryptUtf8(dek, secretNote == null ? "" : secretNote);
             String recovery = CryptoEngine.generateRecoveryCode();
             byte[] recSalt = CryptoEngine.randomBytes(16);
             String recHash = CryptoEngine.hashPinOrRecovery(normalizeRecovery(recovery), recSalt);
@@ -122,7 +121,6 @@ public class SecureVault {
                     .putBoolean(K_BLOCKER, true)
                     .putBoolean(K_ANTITHEFT, true)
                     .apply();
-
             return recovery;
         } finally {
             CryptoEngine.memorySurgeWipe(dek);
@@ -149,7 +147,10 @@ public class SecureVault {
             return new UnlockResult(false, false, null, "Proteção inativa.");
         }
         if (st == State.WIPED) {
-            return new UnlockResult(false, true, null, "Cofre em wipe. Use o código de recuperação.");
+            return new UnlockResult(false, true, null, "Cofre em wipe. Use recovery.");
+        }
+        if (pin == null || pin.isEmpty()) {
+            return new UnlockResult(false, false, null, "Digite o PIN.");
         }
 
         try {
@@ -168,19 +169,14 @@ public class SecureVault {
             if (fails >= MAX_ATTEMPTS) {
                 triggerCryptographicWipe();
                 return new UnlockResult(false, true, null,
-                        "3 tentativas falhas. Wipe criptográfico executado. Use recovery.");
+                        "3 tentativas falhas. Protocolo anti-roubo acionado.");
             }
             return new UnlockResult(false, false, null,
                     "PIN incorreto. Restantes: " + (MAX_ATTEMPTS - fails));
         }
     }
 
-    /**
-     * Wipe criptográfico + limpeza de buffers do app ("surto de memória" controlado).
-     * O aparelho continua funcional. Dados do cofre tornam-se ilegíveis sem recovery.
-     */
     public void triggerCryptographicWipe() {
-        // Sobrescreve material sensível nas prefs
         prefs.edit()
                 .putString(K_STATE, State.WIPED.name())
                 .remove(K_SALT)
@@ -189,22 +185,13 @@ public class SecureVault {
                 .remove(K_VAULT)
                 .putString(K_OWNER, "")
                 .putInt(K_FAILS, MAX_ATTEMPTS)
+                .putBoolean(K_BLOCKER, true)
                 .apply();
-
-        // Pressão controlada apenas na heap do processo do app
-        CryptoEngine.memorySurgeWipe(
-                new byte[32],
-                new byte[32],
-                new byte[64]
-        );
+        CryptoEngine.memorySurgeWipe(new byte[32], new byte[32], new byte[64]);
     }
 
-    /** Reativa após wipe com código de recuperação + novo PIN. */
     public String recover(String recoveryCode, String newPin, String secretNote)
             throws GeneralSecurityException {
-        if (getState() != State.WIPED && getState() != State.ACTIVE) {
-            // permite recovery também se ACTIVE (reset autorizado)
-        }
         String storedHash = prefs.getString(K_REC_HASH, null);
         String saltB64 = prefs.getString(K_REC_SALT, null);
         if (storedHash == null || saltB64 == null) {
@@ -215,14 +202,9 @@ public class SecureVault {
         if (!storedHash.equals(tryHash)) {
             throw new GeneralSecurityException("Código de recuperação inválido.");
         }
-        // Reativa com novo PIN (novo DEK)
-        return activate(newPin, secretNote);
+        return activate(newPin, secretNote != null ? secretNote : "");
     }
 
-    /**
-     * Liberação do aparelho: desativa a proteção após autenticação bem-sucedida.
-     * Dados em claro podem ser exportados antes; depois o cofre é zerado.
-     */
     public void releaseAndDeactivate() {
         prefs.edit()
                 .putString(K_STATE, State.RELEASED.name())
@@ -240,7 +222,8 @@ public class SecureVault {
         CryptoEngine.memorySurgeWipe(new byte[64]);
     }
 
-    public void hardResetDemo() {
+    /** Reativa configuração após liberação (não é demo). */
+    public void clearForNewSetup() {
         prefs.edit().clear()
                 .putString(K_CREATED, "Joaquim Pedro de Morais Filho")
                 .putString(K_STATE, State.INACTIVE.name())

@@ -21,21 +21,48 @@
             android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/tv_lock_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/headline"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/lock_screen_title"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tv_creator"
+        <LinearLayout
+            android:id="@+id/header_extras"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#888888"
-            android:textSize="11sp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/headline"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_creator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#888888"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tv_admin_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="12sp"
+                android:textColor="#FCA5A5" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_status"
@@ -46,14 +73,6 @@
             android:background="#1A1A1A"
             android:textColor="#F5F5F5"
             android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/tv_admin_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="12sp"
-            android:textColor="#FCA5A5" />
 
         <!-- SETUP -->
         <LinearLayout
@@ -72,6 +91,14 @@
                 android:textSize="13sp"
                 android:layout_marginBottom="12dp" />
 
+            <TextView
+                android:id="@+id/tv_lock_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#EAB308"
+                android:textSize="12sp"
+                android:layout_marginBottom="10dp" />
+
             <Button
                 android:id="@+id/btn_enable_admin"
                 android:layout_width="match_parent"
@@ -79,6 +106,24 @@
                 android:text="@string/btn_enable_admin"
                 android:backgroundTint="#7F1D1D"
                 android:textColor="#FECACA"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btn_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_overlay"
+                android:backgroundTint="#3F1D1D"
+                android:textColor="#FECACA"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btn_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_home"
+                android:backgroundTint="#1D2A3F"
+                android:textColor="#BFDBFE"
                 android:layout_marginBottom="10dp" />
 
             <CheckBox
@@ -137,32 +182,35 @@
                 android:text="@string/btn_activate"
                 android:backgroundTint="#EAB308"
                 android:textColor="#000000" />
-
-            <TextView
-                android:id="@+id/tv_recovery_once"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="#4ADE80"
-                android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- UNLOCK -->
+        <!-- UNLOCK — tela principal do bloqueador -->
         <LinearLayout
             android:id="@+id/panel_unlock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:orientation="vertical"
             android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/lock_enter_pin"
+                android:textColor="#CCCCCC"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp" />
 
             <TextView
                 android:id="@+id/tv_attempts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textColor="#FCA5A5"
-                android:textSize="13sp"
-                android:layout_marginBottom="8dp" />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
             <EditText
                 android:id="@+id/et_unlock_pin"
@@ -171,28 +219,33 @@
                 android:hint="@string/hint_pin"
                 android:inputType="numberPassword"
                 android:maxLength="12"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:letterSpacing="0.3"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#666666"
                 android:background="#141414"
-                android:padding="14dp" />
+                android:padding="18dp"
+                android:imeOptions="actionDone" />
 
             <Button
                 android:id="@+id/btn_unlock"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/btn_unlock"
                 android:backgroundTint="#FFFFFF"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btn_force_fail"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/btn_force_fail"
-                android:backgroundTint="#7F1D1D"
-                android:textColor="#FECACA" />
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/lock_no_exit_hint"
+                android:textColor="#555555"
+                android:textSize="11sp" />
         </LinearLayout>
 
         <!-- UNLOCKED SESSION -->
@@ -222,10 +275,19 @@
                 android:textSize="14sp" />
 
             <Button
-                android:id="@+id/btn_release"
+                android:id="@+id/btn_relock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
+                android:text="@string/btn_relock"
+                android:backgroundTint="#333333"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_release"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/btn_release"
                 android:backgroundTint="#EAB308"
                 android:textColor="#000000" />
@@ -299,13 +361,13 @@
                 android:textSize="14sp" />
 
             <Button
-                android:id="@+id/btn_reset_demo"
+                android:id="@+id/btn_new_setup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="@string/btn_reset_demo"
-                android:backgroundTint="#333333"
-                android:textColor="#FFFFFF" />
+                android:text="@string/btn_new_setup"
+                android:backgroundTint="#EAB308"
+                android:textColor="#000000" />
         </LinearLayout>
 
         <!-- WIPE ANIM -->
@@ -338,14 +400,13 @@
             <TextView
                 android:id="@+id/tv_wipe_log"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="140dp"
                 android:layout_marginTop="10dp"
                 android:background="#0A0A0A"
                 android:padding="12dp"
                 android:textColor="#4ADE80"
                 android:typeface="monospace"
-                android:textSize="11sp"
-                android:scrollbars="vertical" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <TextView
@@ -353,8 +414,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/legal_note"
-            android:textColor="#555555"
-            android:textSize="11sp"
+            android:textColor="#444444"
+            android:textSize="10sp"
             android:lineSpacingExtra="2dp" />
     </LinearLayout>
 </ScrollView>
