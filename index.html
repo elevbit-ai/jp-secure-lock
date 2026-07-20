@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="JP Secure Lock — Bloqueador anti-roubo Android com criptografia E2E e factory reset após 3 PIN errados. Criado por Joaquim Pedro de Morais Filho." />
+  <meta name="author" content="Joaquim Pedro de Morais Filho" />
+  <meta property="og:title" content="JP Secure Lock — Anti-Theft Device Blocker" />
+  <meta property="og:description" content="Criptografia AES-256-GCM · Device Admin · Wipe após 3 erros · Download APK assinado" />
+  <title>JP Secure Lock | Bloqueador Anti-Roubo Android</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Syncopate:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="mesh"></div>
+
+  <header class="top">
+    <a class="logo" href="#">JP SECURE LOCK</a>
+    <nav>
+      <a href="#como" data-i18n="nav_how">Como funciona</a>
+      <a href="#seguranca" data-i18n="nav_sec">Segurança</a>
+      <a href="#download" data-i18n="nav_dl">Download</a>
+      <a href="#github" data-i18n="nav_gh">GitHub</a>
+    </nav>
+    <div class="lang">
+      <button type="button" id="btn-pt" class="on" onclick="setLang('pt')">PT</button>
+      <button type="button" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker" data-i18n="kicker">Android · Anti-Theft · E2E Crypto</p>
+      <h1 data-i18n="hero_title">Bloqueador de segurança para liberação e proteção de aparelho</h1>
+      <p class="lead" data-i18n="hero_lead">
+        JP Secure Lock protege o dispositivo com PIN, criptografia AES-256-GCM e resposta anti-roubo:
+        após 3 senhas erradas, executa wipe criptográfico e factory reset oficial do Android.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" href="downloads/JP-Secure-Lock-AntiTheft-v1.1.0.apk" download data-i18n="cta_dl">
+          Baixar APK assinado v1.1.0
+        </a>
+        <a class="btn ghost" href="https://github.com/elevbit-ai/jp-secure-lock" target="_blank" rel="noopener">
+          GitHub
+        </a>
+      </div>
+      <p class="meta" data-i18n="hero_meta">
+        Criado por Joaquim Pedro de Morais Filho · Pacote br.com.joaquimpedro.jpsecure · Assinado (APK Signature v2)
+      </p>
+    </section>
+
+    <section class="cards">
+      <article class="card">
+        <h3 data-i18n="c1_t">Criptografia E2E no aparelho</h3>
+        <p data-i18n="c1_b">AES-256-GCM + PBKDF2-HMAC-SHA256. Chaves derivadas do PIN; cofre local sem servidor.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="c2_t">Bloqueador anti-roubo</h3>
+        <p data-i18n="c2_b">3 PIN errados → limpeza de chaves, lockNow e factory reset (Device Admin oficial).</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="c3_t">Desativar após liberar</h3>
+        <p data-i18n="c3_b">Com PIN correto, libere o aparelho e desative a proteção + remova o administrador.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="c4_t">Recuperação</h3>
+        <p data-i18n="c4_b">Recovery code gerado na ativação. Use se o wipe do cofre ocorreu sem factory reset.</p>
+      </article>
+    </section>
+
+    <section id="como" class="block">
+      <h2 data-i18n="how_title">Como funciona</h2>
+      <ol class="steps">
+        <li data-i18n="s1"><strong>Instale</strong> o APK e abra o JP Secure Lock.</li>
+        <li data-i18n="s2"><strong>Ative o Administrador</strong> do dispositivo (tela oficial do Android).</li>
+        <li data-i18n="s3"><strong>Defina o PIN</strong> e marque o modo anti-roubo máximo.</li>
+        <li data-i18n="s4"><strong>Guarde o recovery code</strong> offline (exibido só uma vez).</li>
+        <li data-i18n="s5">Em roubo/tentativa: <strong>3 erros = apaga todos os dados</strong> do aparelho.</li>
+        <li data-i18n="s6">Após uso legítimo: desbloqueie e <strong>libere/desative</strong>.</li>
+      </ol>
+    </section>
+
+    <section id="seguranca" class="block">
+      <h2 data-i18n="sec_title">O que é (e o que não é)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="th_item">Item</th>
+              <th data-i18n="th_real">Realidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="r1a">3 erros → factory reset</td>
+              <td data-i18n="r1b">Sim (Device Admin + consentimento)</td>
+            </tr>
+            <tr>
+              <td data-i18n="r2a">Eficaz contra roubo de dados</td>
+              <td data-i18n="r2b">Sim — aparelho volta “como novo”</td>
+            </tr>
+            <tr>
+              <td data-i18n="r3a">Queima RAM / destrói hardware</td>
+              <td data-i18n="r3b">Não — impossível e não legítimo</td>
+            </tr>
+            <tr>
+              <td data-i18n="r4a">Uso em aparelho de terceiros</td>
+              <td data-i18n="r4b">Proibido sem consentimento (crime)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="warn" data-i18n="warn">
+        Aviso: no modo máximo, 3 PIN errados apagam fotos, apps e contas. Faça backup. Teste com cuidado.
+      </p>
+    </section>
+
+    <section id="download" class="block download">
+      <h2 data-i18n="dl_title">Download direto</h2>
+      <p data-i18n="dl_lead">APK release assinado · v1.1.0 · ~14 MB</p>
+      <div class="dl-box">
+        <div>
+          <div class="file-name">JP-Secure-Lock-AntiTheft-v1.1.0.apk</div>
+          <div class="file-sub" data-i18n="dl_sub">Nome explicativo · anti-theft · assinado por Joaquim Pedro</div>
+        </div>
+        <a class="btn primary" href="downloads/JP-Secure-Lock-AntiTheft-v1.1.0.apk" download data-i18n="cta_dl2">Download</a>
+      </div>
+      <p class="alt-dl">
+        <a href="downloads/JP-Secure-Lock-assinado.apk" download>JP-Secure-Lock-assinado.apk</a>
+        ·
+        <a href="en/index.html">English page</a>
+      </p>
+      <pre class="code">adb install -r JP-Secure-Lock-AntiTheft-v1.1.0.apk</pre>
+    </section>
+
+    <section id="github" class="block">
+      <h2 data-i18n="gh_title">Repositórios no GitHub</h2>
+      <div class="repo-grid">
+        <a class="repo" href="https://github.com/elevbit-ai/jp-secure-lock" target="_blank" rel="noopener">
+          <span class="repo-name">elevbit-ai/jp-secure-lock</span>
+          <span class="repo-desc" data-i18n="repo1">Código-fonte Android · website · APK · README</span>
+        </a>
+        <a class="repo" href="https://github.com/elevbit-ai/jp-secure-lock/releases" target="_blank" rel="noopener">
+          <span class="repo-name">Releases</span>
+          <span class="repo-desc" data-i18n="repo2">Versões publicadas e assets de download</span>
+        </a>
+        <a class="repo" href="https://elevbit-ai.github.io/jp-secure-lock/" target="_blank" rel="noopener">
+          <span class="repo-name">GitHub Pages</span>
+          <span class="repo-desc" data-i18n="repo3">Este site de documentação e download</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="author block">
+      <p class="kicker" data-i18n="author_k">Autor</p>
+      <h2>Joaquim Pedro de Morais Filho</h2>
+      <p data-i18n="author_b">
+        JP Secure Lock — dispositivo de segurança / bloqueador anti-roubo para Android,
+        com criptografia de ponta e liberação controlada.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Joaquim Pedro de Morais Filho</span>
+    <span>JP Secure Lock v1.1.0</span>
+    <a href="https://github.com/elevbit-ai/jp-secure-lock">Source</a>
+  </footer>
+
+  <script src="i18n.js"></script>
+</body>
+</html>
