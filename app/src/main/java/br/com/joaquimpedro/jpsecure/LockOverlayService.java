@@ -246,6 +246,7 @@ public class LockOverlayService extends Service {
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
+                | WindowManager.LayoutParams.FLAG_SECURE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams(

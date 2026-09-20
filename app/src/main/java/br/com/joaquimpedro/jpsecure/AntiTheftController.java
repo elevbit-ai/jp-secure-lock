@@ -127,7 +127,7 @@ public final class AntiTheftController {
         if (vault.getState() != SecureVault.State.WIPED) {
             vault.triggerCryptographicWipe();
         }
-        CryptoEngine.memorySurgeWipe(new byte[64], new byte[128], new byte[256]);
+        CryptoEngine.secureWipeAll(new byte[64], new byte[128], new byte[256]);
         lockScreen();
         return executeFactoryResetOnly();
     }

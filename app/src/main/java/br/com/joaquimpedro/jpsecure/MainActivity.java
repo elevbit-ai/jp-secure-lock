@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Impede screenshots/preview da tela de PIN (proteção contra captura de tela).
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
 
         vault = new SecureVault(this);
@@ -489,8 +491,9 @@ public class MainActivity extends AppCompatActivity {
         String p2 = etSetupPin2.getText().toString().trim();
         String note = etSecret.getText().toString();
 
-        if (p1.length() < 4) {
-            toast(getString(R.string.err_pin_short));
+        String pinError = SecureVault.validatePin(p1);
+        if (pinError != null) {
+            toast(pinError);
             return;
         }
         if (!p1.equals(p2)) {
@@ -624,8 +627,9 @@ public class MainActivity extends AppCompatActivity {
     private void onRecover() {
         String code = etRecovery.getText().toString();
         String newPin = etNewPin.getText().toString().trim();
-        if (newPin.length() < 4) {
-            toast(getString(R.string.err_pin_short));
+        String pinError = SecureVault.validatePin(newPin);
+        if (pinError != null) {
+            toast(pinError);
             return;
         }
         try {

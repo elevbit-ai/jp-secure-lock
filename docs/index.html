@@ -3,25 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="JP Secure Lock — Bloqueador anti-roubo Android com criptografia E2E e factory reset após 3 PIN errados. Criado por Joaquim Pedro de Morais Filho." />
+  <meta name="description" content="JP Secure Lock — bloqueador anti-roubo Android com criptografia AES-256-GCM selada por hardware (Android Keystore) e factory reset após 3 PIN errados. Criado por Joaquim Pedro de Morais Filho." />
   <meta name="author" content="Joaquim Pedro de Morais Filho" />
-  <meta property="og:title" content="JP Secure Lock — Anti-Theft Device Blocker" />
-  <meta property="og:description" content="Criptografia AES-256-GCM · Device Admin · Wipe após 3 erros · Download APK assinado" />
+  <meta name="theme-color" content="#060709" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="JP Secure Lock — Bloqueador Anti-Roubo Android" />
+  <meta property="og:description" content="Criptografia AES-256-GCM selada por hardware · Device Admin · Wipe após 3 erros · Código aberto." />
+  <meta property="og:url" content="https://elevbit-ai.github.io/jp-secure-lock/" />
   <title>JP Secure Lock | Bloqueador Anti-Roubo Android</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Syncopate:wght@700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Syncopate:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="mesh"></div>
 
   <header class="top">
-    <a class="logo" href="#">JP SECURE LOCK</a>
+    <a class="logo" href="#">JP <span>SECURE</span> LOCK</a>
     <nav>
+      <a href="#video" data-i18n="nav_video">Vídeo</a>
       <a href="#como" data-i18n="nav_how">Como funciona</a>
       <a href="#seguranca" data-i18n="nav_sec">Segurança</a>
       <a href="#download" data-i18n="nav_dl">Download</a>
-      <a href="#github" data-i18n="nav_gh">GitHub</a>
+      <a href="https://github.com/elevbit-ai/jp-secure-lock" data-i18n="nav_gh">GitHub</a>
     </nav>
     <div class="lang">
       <button type="button" id="btn-pt" class="on" onclick="setLang('pt')">PT</button>
@@ -31,141 +36,160 @@
 
   <main>
     <section class="hero">
-      <p class="kicker" data-i18n="kicker">Android · Anti-Theft · E2E Crypto</p>
-      <h1 data-i18n="hero_title">Bloqueador de segurança para liberação e proteção de aparelho</h1>
+      <p class="kicker" data-i18n="kicker">Android · Anti-Roubo · Cripto selada por hardware</p>
+      <h1 data-i18n="hero_title">Seu Android, inutilizável nas mãos erradas</h1>
       <p class="lead" data-i18n="hero_lead">
-        JP Secure Lock protege o dispositivo com PIN, criptografia AES-256-GCM e resposta anti-roubo:
-        após 3 senhas erradas, executa wipe criptográfico e factory reset oficial do Android.
+        JP Secure Lock protege o aparelho com PIN, criptografia AES-256-GCM cujas chaves nunca
+        saem do hardware seguro, e uma resposta anti-roubo: após 3 senhas erradas, apaga o cofre
+        e executa o factory reset oficial do Android.
       </p>
       <div class="cta-row">
-        <a class="btn primary" href="downloads/JP-Secure-Lock-AntiTheft-v1.1.0.apk" download data-i18n="cta_dl">
-          Baixar APK assinado v1.1.0
-        </a>
-        <a class="btn ghost" href="https://github.com/elevbit-ai/jp-secure-lock" target="_blank" rel="noopener">
-          GitHub
-        </a>
+        <a class="btn primary" href="#download" data-i18n="cta_dl">Baixar / Instalar</a>
+        <a class="btn ghost" href="https://github.com/elevbit-ai/jp-secure-lock" target="_blank" rel="noopener">Código-fonte</a>
       </div>
       <p class="meta" data-i18n="hero_meta">
-        Criado por Joaquim Pedro de Morais Filho · Pacote br.com.joaquimpedro.jpsecure · Assinado (APK Signature v2)
+        Criado por Joaquim Pedro de Morais Filho · br.com.joaquimpedro.jpsecure · Código aberto (MIT)
       </p>
+      <div class="trust">
+        <span data-i18n="t1">🔐 <b>AES-256-GCM</b></span>
+        <span data-i18n="t2">🧱 <b>Android Keystore / StrongBox</b></span>
+        <span data-i18n="t3">📵 <b>100% offline</b></span>
+        <span data-i18n="t4">🛡️ <b>Device Admin oficial</b></span>
+      </div>
     </section>
 
-    <section class="cards">
-      <article class="card">
-        <h3 data-i18n="c1_t">Criptografia E2E no aparelho</h3>
-        <p data-i18n="c1_b">AES-256-GCM + PBKDF2-HMAC-SHA256. Chaves derivadas do PIN; cofre local sem servidor.</p>
-      </article>
-      <article class="card">
-        <h3 data-i18n="c2_t">Bloqueador anti-roubo</h3>
-        <p data-i18n="c2_b">3 PIN errados → limpeza de chaves, lockNow e factory reset (Device Admin oficial).</p>
-      </article>
-      <article class="card">
-        <h3 data-i18n="c3_t">Desativar após liberar</h3>
-        <p data-i18n="c3_b">Com PIN correto, libere o aparelho e desative a proteção + remova o administrador.</p>
-      </article>
-      <article class="card">
-        <h3 data-i18n="c4_t">Recuperação</h3>
-        <p data-i18n="c4_b">Recovery code gerado na ativação. Use se o wipe do cofre ocorreu sem factory reset.</p>
-      </article>
+    <section id="video" class="block">
+      <h2 data-i18n="video_title">Vídeos explicativos</h2>
+      <p class="sub" data-i18n="video_sub">Assista à visão geral e ao tutorial de configuração. O player só carrega ao clicar (privacidade e performance).</p>
+      <div class="video-grid">
+        <div>
+          <div class="video-embed" data-embed="" role="button" tabindex="0" aria-label="Reproduzir vídeo de visão geral">
+            <div class="play" aria-hidden="true"></div>
+            <div class="vlabel" data-i18n="video_1">Visão geral — o que é e por que é seguro (em breve)</div>
+          </div>
+        </div>
+        <div>
+          <div class="video-embed" data-embed="" role="button" tabindex="0" aria-label="Reproduzir tutorial de configuração">
+            <div class="play" aria-hidden="true"></div>
+            <div class="vlabel" data-i18n="video_2">Tutorial — configuração passo a passo (em breve)</div>
+          </div>
+        </div>
+      </div>
+      <p class="video-note" data-i18n="video_note">Roteiros de gravação disponíveis no repositório (docs/VIDEO_SCRIPTS.md).</p>
+    </section>
+
+    <section class="block">
+      <h2 data-i18n="feat_title">Camadas de proteção</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="ico">🔐</div>
+          <h3 data-i18n="c1_t">Cofre criptográfico</h3>
+          <p data-i18n="c1_b">AES-256-GCM + PBKDF2 (210k). A nota do dono é cifrada; nada em texto puro.</p>
+        </article>
+        <article class="card">
+          <div class="ico">🧱</div>
+          <h3 data-i18n="c2_t">Chaves no hardware</h3>
+          <p data-i18n="c2_b">Selo por chave não exportável do Android Keystore. Extrair o arquivo não quebra o PIN offline.</p>
+        </article>
+        <article class="card">
+          <div class="ico">🚨</div>
+          <h3 data-i18n="c3_t">Resposta anti-roubo</h3>
+          <p data-i18n="c3_b">3 PIN errados → wipe do cofre + lockNow + factory reset (Device Admin oficial).</p>
+        </article>
+        <article class="card">
+          <div class="ico">🔓</div>
+          <h3 data-i18n="c4_t">Liberação e recuperação</h3>
+          <p data-i18n="c4_b">Libere com o PIN e desative a proteção. Código de recuperação offline para reativar.</p>
+        </article>
+      </div>
     </section>
 
     <section id="como" class="block">
       <h2 data-i18n="how_title">Como funciona</h2>
       <ol class="steps">
         <li data-i18n="s1"><strong>Instale</strong> o APK e abra o JP Secure Lock.</li>
-        <li data-i18n="s2"><strong>Ative o Administrador</strong> do dispositivo (tela oficial do Android).</li>
-        <li data-i18n="s3"><strong>Defina o PIN</strong> e marque o modo anti-roubo máximo.</li>
-        <li data-i18n="s4"><strong>Guarde o recovery code</strong> offline (exibido só uma vez).</li>
-        <li data-i18n="s5">Em roubo/tentativa: <strong>3 erros = apaga todos os dados</strong> do aparelho.</li>
-        <li data-i18n="s6">Após uso legítimo: desbloqueie e <strong>libere/desative</strong>.</li>
+        <li data-i18n="s2"><strong>Permita exibir sobre outros apps</strong> e ative o <strong>Administrador do dispositivo</strong>.</li>
+        <li data-i18n="s3"><strong>Defina o app como HOME</strong> para o botão Início voltar ao bloqueador.</li>
+        <li data-i18n="s4"><strong>Crie um PIN forte</strong> (6+ dígitos) e guarde o <strong>código de recuperação</strong> offline.</li>
+        <li data-i18n="s5">Em tentativa de roubo: <strong>3 erros apagam todos os dados</strong> do aparelho.</li>
+        <li data-i18n="s6">Após uso legítimo: desbloqueie e <strong>libere/desative</strong> a proteção.</li>
       </ol>
     </section>
 
     <section id="seguranca" class="block">
-      <h2 data-i18n="sec_title">O que é (e o que não é)</h2>
+      <h2 data-i18n="sec_title">Segurança, com honestidade</h2>
+      <p class="sub" data-i18n="sec_sub">Nenhum software é "impossível de hackear". Veja exatamente o que este protege — e os limites conhecidos.</p>
       <div class="table-wrap">
         <table>
           <thead>
-            <tr>
-              <th data-i18n="th_item">Item</th>
-              <th data-i18n="th_real">Realidade</th>
-            </tr>
+            <tr><th data-i18n="th_item">Cenário</th><th data-i18n="th_real">Realidade</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td data-i18n="r1a">3 erros → factory reset</td>
-              <td data-i18n="r1b">Sim (Device Admin + consentimento)</td>
-            </tr>
-            <tr>
-              <td data-i18n="r2a">Eficaz contra roubo de dados</td>
-              <td data-i18n="r2b">Sim — aparelho volta “como novo”</td>
-            </tr>
-            <tr>
-              <td data-i18n="r3a">Queima RAM / destrói hardware</td>
-              <td data-i18n="r3b">Não — impossível e não legítimo</td>
-            </tr>
-            <tr>
-              <td data-i18n="r4a">Uso em aparelho de terceiros</td>
-              <td data-i18n="r4b">Proibido sem consentimento (crime)</td>
-            </tr>
+            <tr><td data-i18n="r1a">Ladrão comum sem o PIN</td><td><span class="yes" data-i18n="r1b">Aparelho inutilizável; dados apagados após 3 erros</span></td></tr>
+            <tr><td data-i18n="r2a">Extração do arquivo em aparelho com root</td><td><span class="yes" data-i18n="r2b">Sem ataque offline: chave presa ao hardware</span></td></tr>
+            <tr><td data-i18n="r3a">Zerar o contador editando o arquivo</td><td><span class="yes" data-i18n="r3b">Bloqueado: armazenamento cifrado e autenticado</span></td></tr>
+            <tr><td data-i18n="r4a">Reflash por fastboot/recovery</td><td><span class="no" data-i18n="r4b">Pode apagar o aparelho — mas não recupera os dados cifrados</span></td></tr>
+            <tr><td data-i18n="r5a">"Queimar" RAM / destruir hardware</td><td><span class="no" data-i18n="r5b">Impossível e não é objetivo do projeto</span></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="warn" data-i18n="warn">
-        Aviso: no modo máximo, 3 PIN errados apagam fotos, apps e contas. Faça backup. Teste com cuidado.
-      </p>
+      <p class="warn" data-i18n="warn">Atenção: no modo máximo, 3 PIN errados apagam fotos, apps e contas. Faça backup. Use apenas no seu aparelho ou com consentimento explícito do dono.</p>
+      <p class="video-note"><a href="https://github.com/elevbit-ai/jp-secure-lock/blob/main/SECURITY.md" data-i18n="sec_more">Modelo de ameaças completo (SECURITY.md) →</a></p>
     </section>
 
-    <section id="download" class="block download">
-      <h2 data-i18n="dl_title">Download direto</h2>
-      <p data-i18n="dl_lead">APK release assinado · v1.1.0 · ~14 MB</p>
+    <section id="download" class="block">
+      <h2 data-i18n="dl_title">Download e build</h2>
+      <p class="sub" data-i18n="dl_lead">APK assinado disponível, ou compile a versão 2.0.0 a partir do código.</p>
       <div class="dl-box">
         <div>
-          <div class="file-name">JP-Secure-Lock-AntiTheft-v1.1.0.apk</div>
-          <div class="file-sub" data-i18n="dl_sub">Nome explicativo · anti-theft · assinado por Joaquim Pedro</div>
+          <div class="file-name">JP-Secure-Lock-AntiTheft-v1.4.0.apk</div>
+          <div class="file-sub" data-i18n="dl_sub">Última build assinada · APK Signature v2 · ~14 MB</div>
         </div>
-        <a class="btn primary" href="downloads/JP-Secure-Lock-AntiTheft-v1.1.0.apk" download data-i18n="cta_dl2">Download</a>
+        <a class="btn primary" href="downloads/JP-Secure-Lock-AntiTheft-v1.4.0.apk" download data-i18n="cta_dl2">Baixar APK</a>
       </div>
       <p class="alt-dl">
-        <a href="downloads/JP-Secure-Lock-assinado.apk" download>JP-Secure-Lock-assinado.apk</a>
-        ·
+        <a href="https://github.com/elevbit-ai/jp-secure-lock/releases" data-i18n="dl_rel">Releases</a> ·
         <a href="en/index.html">English page</a>
       </p>
-      <pre class="code">adb install -r JP-Secure-Lock-AntiTheft-v1.1.0.apk</pre>
+      <pre class="code" data-i18n="dl_code">adb install -r JP-Secure-Lock-AntiTheft-v1.4.0.apk
+# Verifique antes de instalar:
+apksigner verify --print-certs JP-Secure-Lock-AntiTheft-v1.4.0.apk</pre>
+      <pre class="code" data-i18n="dl_build"># Compilar a versão 2.0.0 (endurecida) do código:
+git clone https://github.com/elevbit-ai/jp-secure-lock
+cd jp-secure-lock && ./gradlew assembleRelease</pre>
     </section>
 
-    <section id="github" class="block">
-      <h2 data-i18n="gh_title">Repositórios no GitHub</h2>
+    <section class="block">
+      <h2 data-i18n="gh_title">No GitHub</h2>
       <div class="repo-grid">
         <a class="repo" href="https://github.com/elevbit-ai/jp-secure-lock" target="_blank" rel="noopener">
           <span class="repo-name">elevbit-ai/jp-secure-lock</span>
-          <span class="repo-desc" data-i18n="repo1">Código-fonte Android · website · APK · README</span>
+          <span class="repo-desc" data-i18n="repo1">Código-fonte Android · documentação · APK · README</span>
+        </a>
+        <a class="repo" href="https://github.com/elevbit-ai/jp-secure-lock/blob/main/SECURITY.md" target="_blank" rel="noopener">
+          <span class="repo-name">SECURITY.md</span>
+          <span class="repo-desc" data-i18n="repo2">Modelo de ameaças e divulgação responsável</span>
         </a>
         <a class="repo" href="https://github.com/elevbit-ai/jp-secure-lock/releases" target="_blank" rel="noopener">
           <span class="repo-name">Releases</span>
-          <span class="repo-desc" data-i18n="repo2">Versões publicadas e assets de download</span>
-        </a>
-        <a class="repo" href="https://elevbit-ai.github.io/jp-secure-lock/" target="_blank" rel="noopener">
-          <span class="repo-name">GitHub Pages</span>
-          <span class="repo-desc" data-i18n="repo3">Este site de documentação e download</span>
+          <span class="repo-desc" data-i18n="repo3">Versões publicadas e assets de download</span>
         </a>
       </div>
     </section>
 
     <section class="author block">
+      <div class="avatar" aria-hidden="true">JP</div>
       <p class="kicker" data-i18n="author_k">Autor</p>
       <h2>Joaquim Pedro de Morais Filho</h2>
-      <p data-i18n="author_b">
-        JP Secure Lock — dispositivo de segurança / bloqueador anti-roubo para Android,
-        com criptografia de ponta e liberação controlada.
-      </p>
+      <p data-i18n="author_b">Criador e mantenedor do JP Secure Lock — bloqueador anti-roubo para Android com criptografia selada por hardware e liberação controlada.</p>
     </section>
   </main>
 
   <footer>
     <span>© 2026 Joaquim Pedro de Morais Filho</span>
-    <span>JP Secure Lock v1.1.0</span>
-    <a href="https://github.com/elevbit-ai/jp-secure-lock">Source</a>
+    <span>JP Secure Lock v2.0.0</span>
+    <a href="https://github.com/elevbit-ai/jp-secure-lock">Código-fonte</a>
+    <a href="https://github.com/elevbit-ai/jp-secure-lock/blob/main/SECURITY.md">Segurança</a>
   </footer>
 
   <script src="i18n.js"></script>

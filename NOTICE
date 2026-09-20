@@ -1,0 +1,13 @@
+JP Secure Lock
+Copyright (c) 2026 Joaquim Pedro de Morais Filho
+
+Este produto foi criado e é mantido por Joaquim Pedro de Morais Filho.
+Distribuído sob a Licença MIT (ver arquivo LICENSE).
+
+Ao redistribuir este software, no todo ou em parte, mantenha este aviso de
+autoria e o texto da licença.
+
+Bibliotecas de terceiros utilizadas (sob suas próprias licenças):
+- AndroidX (Apache License 2.0)
+- Google Android Material Components (Apache License 2.0)
+- androidx.security-crypto / Google Tink (Apache License 2.0)

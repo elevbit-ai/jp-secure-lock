@@ -62,7 +62,7 @@
     <string name="recovery_antitheft_extra">ANTI-ROUBO MÁXIMO: 3 erros = factory reset.</string>
     <string name="wipe_partial">Cofre limpo + tela travada. Factory reset não permitido pelo sistema.</string>
     <string name="wipe_app_only">(sem factory reset — ative Device Admin)</string>
-    <string name="hint_pin">PIN (mín. 4 dígitos)</string>
+    <string name="hint_pin">PIN (mín. 6 dígitos, sem repetição/sequência)</string>
     <string name="hint_pin2">Confirmar PIN</string>
     <string name="hint_secret">Nota / identificador (opcional, cifrado)</string>
     <string name="btn_activate">Ativar bloqueador</string>
@@ -91,7 +91,7 @@
     <string name="recovery_msg">Código de recuperação (anote offline):\n\n%1$s\n\nSem ele, após wipe o cofre não volta.</string>
     <string name="recovery_saved_hint">Proteção ativa.</string>
 
-    <string name="err_pin_short">PIN deve ter pelo menos 4 dígitos.</string>
+    <string name="err_pin_short">PIN deve ter pelo menos 6 dígitos.</string>
     <string name="err_pin_mismatch">PINs não coincidem.</string>
 
     <string name="legal_note">JP Secure Lock não danifica hardware. Anti-roubo máximo usa Device Admin (lockNow + wipeData). Use no SEU aparelho, com backup. Criado por Joaquim Pedro de Morais Filho.</string>

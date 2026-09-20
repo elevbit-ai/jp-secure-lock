@@ -18,10 +18,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Engine de criptografia de ponta a ponta (no aparelho).
- * AES-256-GCM + PBKDF2-HMAC-SHA256.
+ * AES-256-GCM + PBKDF2-HMAC-SHA256, com selagem opcional por hardware
+ * (Android Keystore) via {@link KeystoreEngine}.
  *
- * NÃO causa dano a hardware/RAM do sistema.
- * O "surto de memória" é limpeza segura de chaves em RAM do app (overwrite + GC).
+ * <p>Não danifica hardware nem a RAM do sistema. As rotinas de limpeza apenas
+ * sobrescrevem buffers sensíveis na heap do próprio app.
  *
  * Criado por Joaquim Pedro de Morais Filho
  */
@@ -31,7 +32,8 @@ public final class CryptoEngine {
     private static final int IV_LEN = 12;
     private static final int KEY_LEN = 256;
     private static final int GCM_TAG = 128;
-    private static final int PBKDF2_ITERS = 120_000;
+    /** Custo do KDF. Valor alto encarece ataques offline de força bruta ao PIN. */
+    private static final int PBKDF2_ITERS = 210_000;
     private static final SecureRandom RNG = new SecureRandom();
 
     private CryptoEngine() {}
@@ -52,6 +54,24 @@ public final class CryptoEngine {
 
     public static byte[] sha256(byte[] data) throws GeneralSecurityException {
         return MessageDigest.getInstance("SHA-256").digest(data);
+    }
+
+    /** Comparação em tempo constante (mitiga timing attacks em hashes/códigos). */
+    public static boolean constantTimeEquals(String a, String b) {
+        if (a == null || b == null) return false;
+        return MessageDigest.isEqual(
+                a.getBytes(StandardCharsets.UTF_8),
+                b.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /** Sela bytes com a chave não exportável do hardware e devolve em Base64. */
+    public static String sealB64(byte[] raw) throws GeneralSecurityException {
+        return b64(KeystoreEngine.seal(raw));
+    }
+
+    /** Abre um blob selado por {@link #sealB64(byte[])}. */
+    public static byte[] unsealB64(String sealedB64) throws GeneralSecurityException {
+        return KeystoreEngine.unseal(unb64(sealedB64));
     }
 
     public static String hashPinOrRecovery(String secret, byte[] salt) throws GeneralSecurityException {
@@ -145,22 +165,23 @@ public final class CryptoEngine {
     }
 
     /**
-     * "Surto de memória" legítimo: sobrescreve buffers sensíveis na heap do app
-     * e sugere GC. Não afeta o SO, a RAM do sistema nem o hardware.
+     * Limpeza segura de material sensível: sobrescreve os buffers informados e
+     * sugere coleta de lixo para reduzir a janela em que chaves ficam em RAM do
+     * app. Não afeta o SO, a RAM do sistema nem o hardware.
      */
-    public static void memorySurgeWipe(byte[]... buffers) {
+    public static void secureWipeAll(byte[]... buffers) {
         if (buffers != null) {
             for (byte[] b : buffers) {
                 secureWipe(b);
             }
         }
-        // Passadas extras de alocação/liberação (simulação controlada de pressão de heap do APP)
-        for (int i = 0; i < 3; i++) {
-            byte[] tmp = new byte[256 * 1024];
-            RNG.nextBytes(tmp);
-            secureWipe(tmp);
-        }
         System.gc();
+    }
+
+    /** @deprecated nome antigo mantido por compatibilidade. Use {@link #secureWipeAll}. */
+    @Deprecated
+    public static void memorySurgeWipe(byte[]... buffers) {
+        secureWipeAll(buffers);
     }
 
     public static void secureWipe(byte[] b) {
