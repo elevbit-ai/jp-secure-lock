@@ -144,6 +144,9 @@ h1 {
 .video-embed .play::after { content: ''; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent #05070a; margin-left: 4px; }
 .video-embed .vlabel { position: absolute; bottom: 14px; left: 16px; right: 16px; color: var(--muted); font-size: 0.82rem; }
 .video-note { margin-top: 0.9rem; color: var(--faint); font-size: 0.82rem; }
+.video-note a { color: var(--brand); }
+.v-native { width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius);
+  border: 1px solid var(--border-strong); background: #000; display: block; }
 .video-grid { display: grid; gap: 1rem; }
 
 /* Steps */
