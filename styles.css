@@ -127,6 +127,7 @@ h1 {
 .video-embed {
   position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius);
   overflow: hidden; border: 1px solid var(--border-strong); cursor: pointer;
+  text-decoration: none; color: inherit;
   background:
     radial-gradient(circle at 50% 42%, rgba(34, 211, 238, 0.16), transparent 60%),
     linear-gradient(135deg, #0d1016, #05070a);

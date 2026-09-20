@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Vídeo explicativo do JP Secure Lock — bloqueador anti-roubo Android. Criado por Joaquim Pedro de Morais Filho." />
+<meta name="author" content="Joaquim Pedro de Morais Filho" />
+<meta name="theme-color" content="#060709" />
+<title>JP Secure Lock — Vídeo explicativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Syncopate:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#060709; --panel:#0c0e12; --border:rgba(255,255,255,.1); --text:#f4f6f8;
+    --muted:#9aa3ad; --brand:#22d3ee; --brand2:#6366f1; --gold:#eab308;
+    --danger:#f87171; --ok:#4ade80;
+    --font:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --display:'Syncopate',var(--font);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--font); background:var(--bg); color:var(--text);
+    display:flex; align-items:center; justify-content:center; padding:16px; min-height:100vh;
+  }
+  .mesh{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+    radial-gradient(60vw 40vw at 12% -5%,rgba(34,211,238,.16),transparent 60%),
+    radial-gradient(55vw 40vw at 92% 8%,rgba(99,102,241,.16),transparent 55%),var(--bg);}
+
+  .player{width:min(920px,100%);border:1px solid var(--border);border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,#0b0d11,#070809);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .stage{position:relative;aspect-ratio:16/9;overflow:hidden;background:
+    radial-gradient(circle at 50% 30%,rgba(34,211,238,.10),transparent 60%),#070809}
+
+  /* progress + top bar */
+  .topbar{position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;gap:10px;
+    padding:12px 16px;font-size:.72rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+  .topbar .brand{font-family:var(--display);color:#fff;font-weight:700;font-size:.7rem}
+  .topbar .brand b{color:var(--brand)}
+  .topbar .sceneno{margin-left:auto}
+
+  /* scenes */
+  .scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:5%;
+    padding:7% 8% 16%;opacity:0;transform:translateY(14px) scale(.99);
+    transition:opacity .6s ease,transform .6s ease;pointer-events:none}
+  .scene.active{opacity:1;transform:none}
+  .left{flex:1;min-width:0}
+  .kick{color:var(--brand);font-size:.72rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}
+  .scene h1{font-size:clamp(1.3rem,3.6vw,2.4rem);line-height:1.1;letter-spacing:-.01em;margin-bottom:12px;
+    background:linear-gradient(180deg,#fff,#b9c2cc);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .scene p{color:var(--muted);font-size:clamp(.85rem,1.6vw,1.05rem);max-width:34ch}
+  .scene .big{font-size:clamp(1.4rem,4vw,2.6rem);font-weight:800;color:#fff;margin:6px 0}
+
+  /* phone mock */
+  .phone{width:clamp(120px,17vw,190px);aspect-ratio:9/19;border-radius:24px;border:2px solid rgba(255,255,255,.18);
+    background:#0a0c11;position:relative;flex:0 0 auto;box-shadow:0 20px 50px rgba(0,0,0,.5);overflow:hidden}
+  .phone::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:34%;height:5px;border-radius:6px;background:rgba(255,255,255,.2)}
+  .screen{position:absolute;inset:8px;border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#0e1117,#0a0c11);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:10px}
+  .lock-ico{font-size:2rem}
+  .dots{display:flex;gap:7px}
+  .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);transition:background .3s}
+  .dots i.on{background:var(--brand)}
+  .dots i.bad{background:var(--danger)}
+  .scr-title{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .bars{width:80%;display:flex;flex-direction:column;gap:6px}
+  .bars span{height:6px;border-radius:4px;background:linear-gradient(90deg,var(--danger),transparent);animation:sweep 1.2s linear infinite}
+  @keyframes sweep{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+  .shield{font-size:2rem}
+  .keytag{font-size:.55rem;color:var(--ok);border:1px solid rgba(74,222,128,.4);border-radius:20px;padding:3px 8px}
+  .layers{display:flex;flex-direction:column;gap:8px;width:90%}
+  .layers div{border:1px solid var(--border);border-radius:10px;padding:8px;font-size:.58rem;color:var(--muted);background:rgba(255,255,255,.03)}
+  .reccode{font-family:ui-monospace,Consolas,monospace;color:var(--gold);font-size:.7rem;letter-spacing:.06em;border:1px dashed rgba(234,179,8,.5);border-radius:8px;padding:6px 8px}
+  .steps{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:6px}
+  .steps li{color:var(--muted);font-size:clamp(.75rem,1.5vw,.95rem);display:flex;gap:8px;align-items:flex-start}
+  .steps li b{color:var(--brand)}
+  .links{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .links a{color:var(--text);text-decoration:none;font-size:clamp(.72rem,1.5vw,.92rem);border:1px solid var(--border);
+    border-radius:10px;padding:8px 12px;display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.03);word-break:break-all}
+  .links a b{color:var(--brand)}
+  .sha{color:var(--muted);font-size:.62rem;font-family:ui-monospace,Consolas,monospace;word-break:break-all;margin-top:6px}
+  .warnrow{margin-top:12px;color:#fecaca;font-size:.8rem;border-left:3px solid var(--danger);padding-left:10px}
+
+  /* caption bar */
+  .cc{position:absolute;left:0;right:0;bottom:56px;z-index:6;display:flex;justify-content:center;padding:0 8%}
+  .cc span{background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:10px;
+    padding:8px 14px;font-size:clamp(.8rem,1.7vw,1rem);color:#fff;max-width:90%;text-align:center;line-height:1.45}
+
+  /* controls */
+  .controls{position:absolute;left:0;right:0;bottom:0;z-index:7;display:flex;align-items:center;gap:12px;
+    padding:10px 16px;background:linear-gradient(0deg,rgba(0,0,0,.6),transparent)}
+  .bar{flex:1;height:5px;border-radius:4px;background:rgba(255,255,255,.15);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .25s linear}
+  .cbtn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:#fff;border-radius:8px;cursor:pointer;
+    font-size:.85rem;padding:7px 11px;font-weight:700;transition:background .15s}
+  .cbtn:hover{background:rgba(255,255,255,.16)}
+  .tcode{color:var(--muted);font-size:.72rem;min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+
+  /* big play overlay */
+  .startcover{position:absolute;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    background:radial-gradient(circle at 50% 40%,rgba(34,211,238,.14),transparent 60%),rgba(6,7,9,.86);text-align:center;padding:8%}
+  .startcover.hidden{display:none}
+  .startcover .plogo{font-family:var(--display);letter-spacing:.16em;color:#fff;font-size:.8rem}
+  .startcover .plogo b{color:var(--brand)}
+  .startcover h2{font-size:clamp(1.3rem,3.5vw,2rem);background:linear-gradient(180deg,#fff,#aeb7c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .startcover p{color:var(--muted);max-width:44ch;font-size:.92rem}
+  .playbtn{width:78px;height:78px;border-radius:50%;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;box-shadow:0 12px 40px rgba(34,211,238,.4)}
+  .playbtn::after{content:"";border-style:solid;border-width:13px 0 13px 22px;border-color:transparent transparent transparent #05070a;margin-left:5px}
+  .byline{color:var(--muted);font-size:.8rem}
+  .byline b{color:#fff}
+
+  .under{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;align-items:center;padding:14px 16px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+  .under a{color:var(--brand);text-decoration:none}
+  @media(max-width:620px){
+    .phone{display:none}
+    .scene{padding:12% 8% 20%}
+    .cc{bottom:52px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="mesh"></div>
+
+<div class="player">
+  <div class="stage" id="stage">
+    <div class="topbar">
+      <span class="brand">JP <b>SECURE</b> LOCK</span>
+      <span id="sceneno" class="sceneno">01 / 11</span>
+    </div>
+
+    <!-- SCENES -->
+    <div class="scene" data-narr="JP Secure Lock. Um bloqueador anti-roubo para Android, criado por Joaquim Pedro de Morais Filho.">
+      <div class="left">
+        <div class="kick">Vídeo explicativo</div>
+        <h1>JP Secure Lock</h1>
+        <p>Bloqueador anti-roubo para Android com criptografia selada por hardware.</p>
+        <p style="margin-top:12px;color:#fff">Por <b>Joaquim Pedro de Morais Filho</b></p>
+      </div>
+      <div class="phone"><div class="screen"><div class="lock-ico">🔒</div><div class="scr-title">Protegido</div></div></div>
+    </div>
+
+    <div class="scene" data-narr="O objetivo é simples: tornar o seu celular inútil nas mãos erradas. Sem o PIN correto, o aparelho não é usado — e, em caso de roubo, os seus dados são apagados.">
+      <div class="left">
+        <div class="kick">O objetivo</div>
+        <h1>Seu Android, inútil nas mãos erradas</h1>
+        <p>Sem o PIN correto, o aparelho não funciona. Em caso de roubo, os dados são apagados — protegendo a sua privacidade.</p>
+      </div>
+      <div class="phone"><div class="screen"><div class="lock-ico">🚫</div><div class="scr-title">Sem PIN, sem acesso</div></div></div>
+    </div>
+
+    <div class="scene" data-narr="A proteção tem três camadas independentes que trabalham juntas.">
+      <div class="left">
+        <div class="kick">Como funciona</div>
+        <h1>Três camadas de proteção</h1>
+        <p>Cada camada funciona sozinha — juntas, elevam muito a barreira contra roubo de dados.</p>
+      </div>
+      <div class="phone"><div class="screen"><div class="layers"><div>1 · Cofre criptográfico</div><div>2 · Camada de bloqueio</div><div>3 · Resposta anti-roubo</div></div></div></div>
+    </div>
+
+    <div class="scene" data-narr="Primeira camada: um cofre com criptografia AES de 256 bits. A chave nasce do seu PIN e é selada pelo hardware seguro do aparelho, o Android Keystore. Assim, nem extraindo o arquivo é possível quebrar o PIN fora do celular.">
+      <div class="left">
+        <div class="kick">Camada 1</div>
+        <h1>Cofre criptográfico</h1>
+        <p>AES-256-GCM + PBKDF2. A chave vem do seu PIN e é selada pelo <b>Android Keystore / StrongBox</b>. Extrair o arquivo não permite ataque offline.</p>
+      </div>
+      <div class="phone"><div class="screen"><div class="shield">🛡️</div><div class="keytag">🔑 chave no hardware</div><div class="scr-title">AES-256-GCM</div></div></div>
+    </div>
+
+    <div class="scene" data-narr="Segunda camada: o bloqueio. Uma tela por cima de tudo, o app como tela inicial e o modo quiosque. Botão Início, Voltar e Recentes não liberam nada — só o PIN.">
+      <div class="left">
+        <div class="kick">Camada 2</div>
+        <h1>Camada de bloqueio</h1>
+        <p>Overlay em tela cheia + app como HOME + modo kiosk + watchdog. Início, Voltar e Recentes não liberam nada.</p>
+      </div>
+      <div class="phone"><div class="screen"><div class="lock-ico">🔐</div><div class="scr-title">Aparelho bloqueado</div><div class="dots"><i class="on"></i><i class="on"></i><i></i><i></i></div></div></div>
+    </div>
+
+    <div class="scene" data-narr="Terceira camada: a resposta anti-roubo. Três PINs errados e o cofre é destruído. Com o administrador do dispositivo ativo, o Android faz o factory reset oficial. O ladrão fica com um aparelho zerado.">
+      <div class="left">
+        <div class="kick">Camada 3</div>
+        <h1>Resposta anti-roubo</h1>
+        <p>3 PINs errados → apagamento do cofre + <b>factory reset</b> oficial (Device Admin). O ladrão fica com um aparelho zerado.</p>
+      </div>
+      <div class="phone"><div class="screen"><div class="dots"><i class="bad"></i><i class="bad"></i><i class="bad"></i></div><div class="scr-title" style="color:var(--danger)">Protocolo anti-roubo</div><div class="bars"><span></span><span></span><span></span></div></div></div>
+    </div>
+
+    <div class="scene" data-narr="Sendo honesto: nenhum software é impossível de hackear. O que este projeto faz é elevar a barreira ao nível dos aplicativos de segurança sérios e documentar com clareza o que protege e os seus limites.">
+      <div class="left">
+        <div class="kick">Transparência</div>
+        <h1>Segurança, com honestidade</h1>
+        <p>Nenhum software é 100% inviolável. Este projeto eleva a barreira ao nível de apps sérios e documenta o que protege — e os limites — no <b>SECURITY.md</b>.</p>
+      </div>
+      <div class="phone"><div class="screen"><div class="lock-ico">⚖️</div><div class="scr-title">Modelo de ameaças aberto</div></div></div>
+    </div>
+
+    <div class="scene" data-narr="Na ativação, você recebe um código de recuperação. Guarde-o offline: com ele, é possível reativar a proteção se o cofre for apagado.">
+      <div class="left">
+        <div class="kick">Recuperação</div>
+        <h1>Você no controle</h1>
+        <p>Na ativação é gerado um código de recuperação. Guarde-o offline para reativar a proteção quando precisar.</p>
+      </div>
+      <div class="phone"><div class="screen"><div class="scr-title">Código de recuperação</div><div class="reccode">XXXX-XXXX-XXXX</div><div class="scr-title" style="color:var(--gold)">Guarde offline</div></div></div>
+    </div>
+
+    <div class="scene" data-narr="Para instalar: baixe o APK assinado, permita exibir sobre outros apps, ative o administrador do dispositivo, defina o app como tela inicial e crie um PIN forte de seis dígitos.">
+      <div class="left">
+        <div class="kick">Passo a passo</div>
+        <h1>Como instalar</h1>
+        <ol class="steps">
+          <li><b>1.</b> Instale o APK assinado.</li>
+          <li><b>2.</b> Permita exibir sobre outros apps.</li>
+          <li><b>3.</b> Ative o Administrador do dispositivo.</li>
+          <li><b>4.</b> Defina o app como tela inicial (HOME).</li>
+          <li><b>5.</b> Crie um PIN forte (6+ dígitos).</li>
+        </ol>
+      </div>
+      <div class="phone"><div class="screen"><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="scr-title">PIN de 6 dígitos</div></div></div>
+    </div>
+
+    <div class="scene" data-narr="Tudo está aberto no GitHub. Baixe a versão 2 ponto 0, assinada, no site do projeto. Os links estão na tela.">
+      <div class="left">
+        <div class="kick">Baixe e explore</div>
+        <h1>Tudo aberto e acessível</h1>
+        <div class="links">
+          <a href="index.html">🌐 Site: <b>elevbit-ai.github.io/jp-secure-lock</b></a>
+          <a href="https://github.com/elevbit-ai/jp-secure-lock" target="_blank" rel="noopener">💻 Código: <b>github.com/elevbit-ai/jp-secure-lock</b></a>
+          <a href="https://github.com/elevbit-ai/jp-secure-lock/blob/main/SECURITY.md" target="_blank" rel="noopener">🛡️ Segurança: <b>SECURITY.md</b></a>
+          <a href="downloads/JP-Secure-Lock-AntiTheft-v2.0.0.apk" download>📦 Baixar <b>APK v2.0.0 assinado</b></a>
+        </div>
+        <div class="sha">SHA-256: c75f3f74bfc22d91f2a0fe96d16e53f24ad5f16f7aeafcc1eb3182a5d173185f</div>
+      </div>
+      <div class="phone"><div class="screen"><div class="lock-ico">📦</div><div class="scr-title">v2.0.0 · assinado</div></div></div>
+    </div>
+
+    <div class="scene" data-narr="JP Secure Lock. Desenvolvido por Joaquim Pedro de Morais Filho. Código aberto, licença MIT.">
+      <div class="left" style="text-align:center;flex:1">
+        <div class="kick" style="text-align:center">Desenvolvido por</div>
+        <div class="big">Joaquim Pedro de Morais Filho</div>
+        <p style="margin:0 auto">JP Secure Lock · Código aberto · Licença MIT · 2026</p>
+      </div>
+    </div>
+
+    <!-- captions + controls -->
+    <div class="cc"><span id="cc"></span></div>
+    <div class="controls">
+      <button class="cbtn" id="btnPlay" aria-label="Reproduzir/Pausar">⏸</button>
+      <button class="cbtn" id="btnRestart" aria-label="Recomeçar">↺</button>
+      <button class="cbtn" id="btnMute" aria-label="Ativar/desativar narração">🔊</button>
+      <div class="bar"><i id="prog"></i></div>
+      <span class="tcode" id="tcode">00:00</span>
+    </div>
+
+    <!-- start cover -->
+    <div class="startcover" id="cover">
+      <div class="plogo">JP <b>SECURE</b> LOCK</div>
+      <h2>Vídeo explicativo</h2>
+      <p>Animação com narração em português. Toque em play para começar (o som usa a voz do seu navegador).</p>
+      <button class="playbtn" id="btnStart" aria-label="Começar"></button>
+      <div class="byline">Por <b>Joaquim Pedro de Morais Filho</b></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var cc = document.getElementById('cc');
+  var prog = document.getElementById('prog');
+  var tcode = document.getElementById('tcode');
+  var sceneno = document.getElementById('sceneno');
+  var cover = document.getElementById('cover');
+  var btnPlay = document.getElementById('btnPlay');
+  var btnRestart = document.getElementById('btnRestart');
+  var btnMute = document.getElementById('btnMute');
+  var btnStart = document.getElementById('btnStart');
+
+  // duration per scene from narration length (reading pace)
+  var durations = scenes.map(function(s){
+    var t = s.getAttribute('data-narr') || '';
+    var words = t.split(/\s+/).filter(Boolean).length;
+    return Math.max(4500, Math.round(words * 430) + 900);
+  });
+  var total = durations.reduce(function(a,b){return a+b;},0);
+
+  var i = 0, sceneElapsed = 0, sceneStart = 0, raf = null, playing = false, muted = false;
+  var ptVoice = null;
+
+  function elapsedBeforeScene(){ return durations.slice(0,i).reduce(function(a,b){return a+b;},0); }
+
+  function pickVoice(){
+    try{
+      var vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+      ptVoice = vs.filter(function(v){return /pt/i.test(v.lang);})
+                  .sort(function(a,b){return (/br/i.test(b.lang)?1:0)-(/br/i.test(a.lang)?1:0);})[0] || null;
+    }catch(e){}
+  }
+  if(window.speechSynthesis){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+
+  function speak(text){
+    if(muted || !window.speechSynthesis) return;
+    try{
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'pt-BR'; u.rate = 1.0; u.pitch = 1.0;
+      if(ptVoice) u.voice = ptVoice;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  function fmt(ms){
+    var s = Math.max(0, Math.round(ms/1000));
+    var m = Math.floor(s/60); s = s%60;
+    return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  }
+
+  function showScene(idx){
+    scenes.forEach(function(s,k){ s.classList.toggle('active', k===idx); });
+    cc.textContent = scenes[idx].getAttribute('data-narr') || '';
+    sceneno.textContent = (idx+1<10?'0':'')+(idx+1)+' / '+(scenes.length<10?'0':'')+scenes.length;
+    speak(scenes[idx].getAttribute('data-narr') || '');
+  }
+
+  var finished = false;
+
+  function tick(now){
+    if(!playing) return;
+    sceneElapsed = now - sceneStart;
+    var globalMs = elapsedBeforeScene() + Math.min(sceneElapsed, durations[i]);
+    prog.style.width = (globalMs/total*100)+'%';
+    tcode.textContent = fmt(globalMs)+' / '+fmt(total);
+    if(sceneElapsed >= durations[i]){
+      if(i < scenes.length-1){
+        i++; sceneElapsed = 0; sceneStart = now; showScene(i);
+      }else{
+        playing = false; finished = true; btnPlay.textContent = '↺';
+        prog.style.width = '100%'; tcode.textContent = fmt(total)+' / '+fmt(total);
+        return;
+      }
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  function play(){
+    if(finished){ restart(); return; }
+    playing = true; btnPlay.textContent = '⏸';
+    sceneStart = performance.now() - sceneElapsed;
+    speak(scenes[i].getAttribute('data-narr') || ''); // (re)start narration for current scene
+    raf = requestAnimationFrame(tick);
+  }
+  function pause(){
+    playing = false; btnPlay.textContent = '▶';
+    if(raf) cancelAnimationFrame(raf);
+    if(window.speechSynthesis) try{ speechSynthesis.cancel(); }catch(e){}
+    sceneElapsed = Math.min(performance.now() - sceneStart, durations[i]);
+  }
+  function restart(){
+    if(raf) cancelAnimationFrame(raf);
+    if(window.speechSynthesis) try{ speechSynthesis.cancel(); }catch(e){}
+    i = 0; sceneElapsed = 0; finished = false; playing = true; btnPlay.textContent = '⏸';
+    prog.style.width='0%'; showScene(0); sceneStart = performance.now();
+    raf = requestAnimationFrame(tick);
+  }
+
+  btnStart.addEventListener('click', function(){
+    cover.classList.add('hidden');
+    restart();
+  });
+  btnPlay.addEventListener('click', function(){
+    if(playing){ pause(); } else { play(); }
+  });
+  btnRestart.addEventListener('click', restart);
+  btnMute.addEventListener('click', function(){
+    muted = !muted; btnMute.textContent = muted ? '🔇' : '🔊';
+    if(muted && window.speechSynthesis){ try{ speechSynthesis.cancel(); }catch(e){} }
+    else if(!muted && playing){ speak(scenes[i].getAttribute('data-narr')||''); }
+  });
+
+  // init first scene visible under cover
+  showScene(0); tcode.textContent = '00:00 / '+fmt(total);
+  window.addEventListener('beforeunload', function(){ if(window.speechSynthesis) try{ speechSynthesis.cancel(); }catch(e){} });
+})();
+</script>
+
+<div class="under">
+  <span>© 2026 Joaquim Pedro de Morais Filho · Licença MIT</span>
+  <a href="index.html">Voltar ao site</a>
+  <a href="https://github.com/elevbit-ai/jp-secure-lock" target="_blank" rel="noopener">GitHub</a>
+  <a href="downloads/JP-Secure-Lock-AntiTheft-v2.0.0.apk" download>Baixar APK v2.0.0</a>
+</div>
+</body>
+</html>
