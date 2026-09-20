@@ -68,10 +68,11 @@ MainActivity ─┬─ SecureVault ─┬─ CryptoEngine (AES-256-GCM, PBKDF2, 
 
 ## Instalação
 
-**APK assinado** (última build publicada) — página de [Releases](https://github.com/elevbit-ai/jp-secure-lock/releases) ou pasta [`docs/downloads`](docs/downloads).
+**APK assinado v2.0.0** — página de [Releases](https://github.com/elevbit-ai/jp-secure-lock/releases) ou pasta [`docs/downloads`](docs/downloads). Assinado por *CN=Joaquim Pedro de Morais Filho*.
 
 ```bash
-adb install -r JP-Secure-Lock-AntiTheft-v1.4.0.apk
+adb install -r JP-Secure-Lock-AntiTheft-v2.0.0.apk
+# SHA-256: c75f3f74bfc22d91f2a0fe96d16e53f24ad5f16f7aeafcc1eb3182a5d173185f
 ```
 
 **Compilar a versão 2.0.0 a partir do código:**
@@ -87,8 +88,8 @@ cd jp-secure-lock
 Verifique a integridade do APK antes de instalar:
 
 ```bash
-sha256sum JP-Secure-Lock-AntiTheft-v1.4.0.apk
-apksigner verify --print-certs JP-Secure-Lock-AntiTheft-v1.4.0.apk
+sha256sum JP-Secure-Lock-AntiTheft-v2.0.0.apk
+apksigner verify --print-certs JP-Secure-Lock-AntiTheft-v2.0.0.apk
 ```
 
 ## Configuração (camada máxima)
